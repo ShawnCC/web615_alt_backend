@@ -118,4 +118,33 @@ router.post('/', (req, res) => {
     });
 });
 
+/**
+ * Delete a company
+ * DELETE /api/v1/companies/:companyId/
+ */
+router.delete('/:companyId/', (req, res) => {
+    let responseData = {};
+
+    models.company.destroy({
+        where: {
+            id: req.params.companyId
+        }
+    }).then(() => {
+        responseData.status = 200,
+        responseData.message = 'Company deleted successfully!';
+
+        res.status(responseData.status);
+        res.json(responseData);
+    }).catch((err) => {
+        console.log(new Date());
+        console.log(err);
+
+        responseData.status = 500,
+        responseData.message = 'Error deleting Company.';
+
+        res.status(responseData.status);
+        res.json(responseData);
+    });
+});
+
 module.exports = router;
