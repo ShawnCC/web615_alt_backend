@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 
 const app = express();
 const server = http.createServer(app);
+const io = require('socket.io').listen(server);
 const models = require('./models');
 
 // Prints out requests
@@ -21,6 +22,13 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+});
+
+// This middleware includes Socket.IO instance in the request object so that all
+// of the endpoints have access to Socket.IO
+app.use((req, res, next) => {
+    req.io = io;
     next();
 });
 

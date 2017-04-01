@@ -104,6 +104,8 @@ router.post('/', (req, res) => {
         responseData.message = 'Company created successfully!';
         responseData.company = data;
 
+        req.io.emit('POST/api/v1/companies/');
+
         res.status(responseData.status);
         res.json(responseData);
     }).catch((err) => {
@@ -132,6 +134,8 @@ router.delete('/:companyId/', (req, res) => {
     }).then(() => {
         responseData.status = 200,
         responseData.message = 'Company deleted successfully!';
+
+        req.io.emit('DELETE/api/v1/companies/:companyId/');
 
         res.status(responseData.status);
         res.json(responseData);

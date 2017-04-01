@@ -25,6 +25,8 @@ router.post('/', (req, res) => {
         responseData.status = 500,
         responseData.message = 'Error creating Software.';
 
+        req.io.emit('POST/api/v1/software/');
+
         res.status(responseData.status);
         res.json(responseData);
     });
